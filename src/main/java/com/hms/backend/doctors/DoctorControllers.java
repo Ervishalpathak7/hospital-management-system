@@ -13,18 +13,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api/v1/doctor")
 public class DoctorControllers {
 
+    private final DoctorServices service;
+
+    DoctorControllers(DoctorServices service) {
+        this.service = service;
+    }
+
     @GetMapping("/")
     public String getAllDoctors() {
+        service.getAllDoctors();
         return "Fetching all the doctors";
     }
 
     @PostMapping("/")
     public String registerNewDoctor(@RequestBody Doctor doctor) {
+        service.registerDoctor(doctor);
         return "registering a new doctor";
     }
 
     @GetMapping("/{id}")
     public String getDoctorById(@PathVariable Long id) {
+        service.getDoctorById(id);
         return "fetching docker with id " + id;
     }
 
@@ -35,6 +44,7 @@ public class DoctorControllers {
 
     @DeleteMapping("/{id}")
     public String deleteDoctorById(@PathVariable Long id) {
+        service.deleteDoctorById(id);
         return "Deleting doctor by id " + id;
 
     }
