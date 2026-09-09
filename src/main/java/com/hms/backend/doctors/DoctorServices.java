@@ -1,16 +1,23 @@
 package com.hms.backend.doctors;
 
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.stereotype.Service;
+
+import com.hms.backend.Exceptions.ResourceNotFound;
 
 @Service
 public class DoctorServices {
 
-    public Doctor getDoctorById(Long id) {
+    private final DoctorRepository repository;
+
+    DoctorServices(DoctorRepository repository) {
+        this.repository = repository;
+    }
+
+    public Optional<Doctor> getDoctorById(Long id) {
         try {
-            System.out.println("Inside getDoctorById Service");
-            return null;
+            return repository.findById(id);
         } catch (Exception e) {
             System.out.println("Error occured inside { getDoctorById Service }  : " + e.getMessage());
             return null;
@@ -19,8 +26,7 @@ public class DoctorServices {
 
     public List<Doctor> getAllDoctors() {
         try {
-            System.out.println("Inside getAllDoctors Service");
-            return null;
+            return repository.findAll();
         } catch (Exception e) {
             System.out.println("Error occured inside { getAllDoctors Service }  : " + e.getMessage());
             return null;
@@ -29,8 +35,7 @@ public class DoctorServices {
 
     public Doctor registerDoctor(Doctor doctor) {
         try {
-            System.out.println("Inside registerDoctor Service");
-            return null;
+            return repository.save(doctor);
         } catch (Exception e) {
             System.out.println("Error occured inside { registerDoctor Service }  : " + e.getMessage());
             return null;
@@ -39,9 +44,14 @@ public class DoctorServices {
 
     public void deleteDoctorById(Long id) {
         try {
-            System.out.println("Inside deleteDoctorById Service");
+            Optional<Doctor> doc = repository.findById(id);
+            if (doc.isPresent()) {
+                repository.deleteById(id);
+            } else {
+                throw new ResourceNotFound("doctor with id : " + id + " not found");
+            }
         } catch (Exception e) {
-            System.out.println("Error occured inside { deleteDoctorById Service}  : " + e.getMessage());
+            throw e;
         }
     }
 }
