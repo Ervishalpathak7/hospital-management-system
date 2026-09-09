@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,10 @@ public class Doctor {
 
     @Column(nullable = false, length = 255)
     private String speciality;
+
+    public Doctor(String name, String speciality) {
+        this.name = name;
+        this.speciality = speciality;
+    }
 
 }

@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.hms.backend.Exceptions.ResourceNotFound;
+import com.hms.backend.doctors.Dto.CreateDoctorRequest;
 
 @Service
 public class DoctorServices {
@@ -35,9 +36,10 @@ public class DoctorServices {
         }
     }
 
-    public Doctor registerDoctor(Doctor doctor) {
+    public Doctor registerDoctor(CreateDoctorRequest req) {
         try {
-            return repository.save(doctor);
+            Doctor doc = new Doctor(req.name(), req.specialization());
+            return repository.save(doc);
         } catch (Exception e) {
             System.out.println("Error occured inside { registerDoctor Service }  : " + e.getMessage());
             return null;
@@ -57,4 +59,5 @@ public class DoctorServices {
             throw e;
         }
     }
+
 }
