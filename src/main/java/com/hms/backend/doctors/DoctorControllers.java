@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class DoctorControllers {
 
     private final DoctorServices service;
-   
+
     DoctorControllers(DoctorServices service) {
         this.service = service;
     }
@@ -33,13 +34,13 @@ public class DoctorControllers {
     }
 
     @GetMapping("/{id}")
-    public Optional<Doctor> getDoctorById(@PathVariable Long id) {
-        return service.getDoctorById(id);
+    public Optional<Doctor> getDoctorById(@PathVariable String id) {
+        return service.getDoctorById(UUID.fromString(id));
     }
 
     @DeleteMapping("/{id}")
-    public String deleteDoctorById(@PathVariable Long id) {
-        service.deleteDoctorById(id);
+    public String deleteDoctorById(@PathVariable String id) {
+        service.deleteDoctorById(UUID.fromString(id));
         return "Doctor deleted successfully";
     }
 

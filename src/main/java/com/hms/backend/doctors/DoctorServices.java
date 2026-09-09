@@ -2,6 +2,8 @@ package com.hms.backend.doctors;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.hms.backend.Exceptions.ResourceNotFound;
@@ -15,7 +17,7 @@ public class DoctorServices {
         this.repository = repository;
     }
 
-    public Optional<Doctor> getDoctorById(Long id) {
+    public Optional<Doctor> getDoctorById(UUID id) {
         try {
             return repository.findById(id);
         } catch (Exception e) {
@@ -42,8 +44,9 @@ public class DoctorServices {
         }
     }
 
-    public void deleteDoctorById(Long id) {
+    public void deleteDoctorById(UUID id) {
         try {
+
             Optional<Doctor> doc = repository.findById(id);
             if (doc.isPresent()) {
                 repository.deleteById(id);

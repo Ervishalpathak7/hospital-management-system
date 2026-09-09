@@ -1,0 +1,8 @@
+ALTER TABLE doctors DROP CONSTRAINT doctors_pkey;
+ALTER TABLE doctors DROP COLUMN id;
+
+ALTER TABLE doctors ADD COLUMN id UUID;
+UPDATE doctors SET id = gen_random_uuid() WHERE id IS NULL;
+
+ALTER TABLE doctors ALTER COLUMN id SET NOT NULL;
+ALTER TABLE doctors ADD PRIMARY KEY (id); 
