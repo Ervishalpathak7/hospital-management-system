@@ -1,12 +1,15 @@
 package com.hms.backend.doctors;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -14,39 +17,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class DoctorControllers {
 
     private final DoctorServices service;
-
+   
     DoctorControllers(DoctorServices service) {
         this.service = service;
     }
 
     @GetMapping("/")
-    public String getAllDoctors() {
-        service.getAllDoctors();
-        return "Fetching all the doctors";
+    public List<Doctor> getAllDoctors() {
+        return service.getAllDoctors();
     }
 
     @PostMapping("/")
-    public String registerNewDoctor(@RequestBody Doctor doctor) {
-        service.registerDoctor(doctor);
-        return "registering a new doctor";
+    public Doctor registerNewDoctor(@RequestBody Doctor doctor) {
+        return service.registerDoctor(doctor);
     }
 
     @GetMapping("/{id}")
-    public String getDoctorById(@PathVariable Long id) {
-        service.getDoctorById(id);
-        return "fetching docker with id " + id;
-    }
-
-    @PutMapping("/{id}")
-    public String updateDoctorDetails(@PathVariable String id, @RequestBody Doctor updatedDoctor) {
-        return "updating doctor with id " + id;
+    public Optional<Doctor> getDoctorById(@PathVariable Long id) {
+        return service.getDoctorById(id);
     }
 
     @DeleteMapping("/{id}")
     public String deleteDoctorById(@PathVariable Long id) {
         service.deleteDoctorById(id);
-        return "Deleting doctor by id " + id;
-
+        return "Doctor deleted successfully";
     }
 
 }
