@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hms.backend.Exceptions.ResourceNotFound;
 import com.hms.backend.doctors.Dto.CreateDoctorRequest;
@@ -36,6 +37,7 @@ public class DoctorServices {
         }
     }
 
+    @Transactional 
     public Doctor registerDoctor(CreateDoctorRequest req) {
         try {
             Doctor doc = new Doctor(req.name(), req.specialization());
