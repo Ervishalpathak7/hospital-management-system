@@ -11,7 +11,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -49,7 +48,7 @@ public class DoctorControllers {
     }
 
     @GetMapping("/{id}")
-    public Optional<Doctor> getDoctorById(@PathVariable @NotNull UUID id) {
+    public Doctor getDoctorById(@PathVariable @NotNull UUID id) {
         return service.getDoctorById(id);
     }
 

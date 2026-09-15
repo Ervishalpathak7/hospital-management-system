@@ -19,15 +19,10 @@ public class DoctorServices {
         this.repository = repository;
     }
 
-    public Optional<Doctor> getDoctorById(UUID id) {
-        try {
-            return repository.findById(id);
-        } catch (Exception e) {
-            System.out.println("Error occured inside { getDoctorById Service }  : " + e.getMessage());
-            return null;
-        }
+    public Doctor getDoctorById(UUID id) {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
     }
-
+    
     public List<Doctor> getAllDoctors() {
         try {
             return repository.findAll();
@@ -37,7 +32,7 @@ public class DoctorServices {
         }
     }
 
-    @Transactional 
+    @Transactional
     public Doctor registerDoctor(CreateDoctorRequest req) {
         try {
             Doctor doc = new Doctor(req.name(), req.specialization());
