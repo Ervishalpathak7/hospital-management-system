@@ -1,13 +1,12 @@
 package com.hms.backend.doctors;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hms.backend.Exceptions.ResourceNotFound;
+import com.hms.backend.Exceptions.ResourceNotFoundException;
 import com.hms.backend.doctors.Dto.CreateDoctorRequest;
 
 @Service
@@ -20,9 +19,9 @@ public class DoctorServices {
     }
 
     public Doctor getDoctorById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
-    
+
     public List<Doctor> getAllDoctors() {
         try {
             return repository.findAll();
@@ -44,17 +43,8 @@ public class DoctorServices {
     }
 
     public void deleteDoctorById(UUID id) {
-        try {
-
-            Optional<Doctor> doc = repository.findById(id);
-            if (doc.isPresent()) {
-                repository.deleteById(id);
-            } else {
-                throw new ResourceNotFound("doctor with id : " + id + " not found");
-            }
-        } catch (Exception e) {
-            throw e;
-        }
+        repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found"));
+        repository.deleteById(id);
     }
-
 }
