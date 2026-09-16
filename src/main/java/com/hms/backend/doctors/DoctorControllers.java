@@ -3,15 +3,14 @@ package com.hms.backend.doctors;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hms.backend.doctors.Dto.CreateDoctorRequest;
+import com.hms.backend.doctors.Dto.CursorPageResponse;
 import com.hms.backend.doctors.Dto.DoctorResponse;
-import com.hms.backend.doctors.Dto.PageResponse;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -35,10 +34,10 @@ public class DoctorControllers {
     }
 
     @GetMapping()
-    public PageResponse<DoctorResponse> getAllDoctors(
-            @RequestParam(defaultValue = "1") @Min(0) int page,
+    public CursorPageResponse<DoctorResponse> getAllDoctors(
+            @RequestParam(required = false) @Min(0) String cursor,
             @RequestParam(defaultValue = "10") @Min(1) @Max(20) int size) {
-        return service.getAllDoctors(page, size);
+        return service.getAllDoctors(cursor, size);
     }
 
     @PostMapping()

@@ -1,10 +1,8 @@
 package com.hms.backend.Exceptions;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -42,6 +40,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 pd.setTitle("Validation Error");
                 pd.setProperty("errors", errors);
                 return ResponseEntity.status(status).headers(headers).body(pd);
+        }
+
+        @ExceptionHandler(InvalidCursorException.class)
+        public ProblemDetail handleInvalidCursor(InvalidCursorException ex) {
+                ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+                pd.setTitle("Invalid Cursor");
+                return pd;
         }
 
         @ExceptionHandler(Exception.class)
