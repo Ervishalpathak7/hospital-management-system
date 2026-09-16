@@ -3,11 +3,17 @@ package com.hms.backend.doctors;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hms.backend.Exceptions.ResourceNotFoundException;
 import com.hms.backend.doctors.Dto.CreateDoctorRequest;
+import com.hms.backend.doctors.Dto.DoctorResponse;
+import com.hms.backend.doctors.Dto.PageResponse;
 
 @Service
 public class DoctorServices {
@@ -22,24 +28,16 @@ public class DoctorServices {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
 
-    public List<Doctor> getAllDoctors() {
-        try {
-            return repository.findAll();
-        } catch (Exception e) {
-            System.out.println("Error occured inside { getAllDoctors Service }  : " + e.getMessage());
-            return null;
-        }
+    public PageResponse<DoctorResponse> getAllDoctors(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<Doctor> doctors = repository.findAll(pageable);
+        return PageResponse.from(doctors.map(DoctorResponse::from));
     }
 
     @Transactional
-    public Doctor registerDoctor(CreateDoctorRequest req) {
-        try {
-            Doctor doc = new Doctor(req.name(), req.specialization());
-            return repository.save(doc);
-        } catch (Exception e) {
-            System.out.println("Error occured inside { registerDoctor Service }  : " + e.getMessage());
-            return null;
-        }
+    public DoctorResponse registerDoctor(CreateDoctorRequest req) {
+        Doctor doc = new Doctor(req.name(), req.specialization());
+        return DoctorResponse.from(repository.save(doc));
     }
 
     public void deleteDoctorById(UUID id) {
