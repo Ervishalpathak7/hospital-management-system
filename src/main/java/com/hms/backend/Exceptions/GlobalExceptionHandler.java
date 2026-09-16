@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
         @ExceptionHandler(MethodArgumentTypeMismatchException.class)
         public ResponseEntity<ProblemDetail> handleArgumentTypeMisMatchVoilation(
                         MethodArgumentTypeMismatchException ex) {
-                ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,  "Invalid " + ex.getName());
+                ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid " + ex.getName());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
         }
 
@@ -76,5 +76,12 @@ public class GlobalExceptionHandler {
                                 HttpStatus.BAD_REQUEST, "Request body is malformed or has invalid values.");
                 pd.setTitle("Malformed request body");
                 return pd;
+        }
+
+        @ExceptionHandler(Exception.class)
+        public ProblemDetail handleUnhandledException(Exception ex) {
+                System.out.println("Unhandled Exception : " + ex);
+                return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error occured");
+
         }
 }
