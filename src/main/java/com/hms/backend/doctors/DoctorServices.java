@@ -27,20 +27,23 @@ public class DoctorServices {
 
     @Transactional(readOnly = true)
     public CursorPageResponse<DoctorResponse> getAllDoctors(String cursor, int size) {
+
         Limit limit = Limit.of(size + 1);
 
         List<Doctor> rows = (cursor == null)
                 ? repository.findAllByOrderByIdAsc(limit)
                 : repository.findByIdGreaterThanOrderByIdAsc(CursorCodec.decode(cursor), limit);
 
-        boolean hasNext = rows.size() > size;
+        Boolean hasNext = rows.size() > size;
+
         List<Doctor> pageRows = hasNext ? rows.subList(0, size) : rows;
 
-        String nextCursor = hasNext
-                ? CursorCodec.encode(pageRows.get(pageRows.size() - 1).getId())
-                : null;
+        String nextCursor = hasNext ? CursorCodec.encode(pageRows.get(pageRows.size() - 1).getId()) : null;
 
-        List<DoctorResponse> content = pageRows.stream().map(DoctorResponse::from).toList();
+        List<DoctorResponse> content = pageRows.stream()
+                .map(DoctorResponse::from)
+                .toList();
+
         return new CursorPageResponse<>(content, nextCursor, hasNext);
     }
 

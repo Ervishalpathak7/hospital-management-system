@@ -14,6 +14,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class DoctorControllers {
 
     @GetMapping()
     public CursorPageResponse<DoctorResponse> getAllDoctors(
-            @RequestParam(required = false) @Min(0) String cursor,
+            @RequestParam(required = false) String cursor,
             @RequestParam(defaultValue = "10") @Min(1) @Max(20) int size) {
         return service.getAllDoctors(cursor, size);
     }
@@ -52,9 +53,9 @@ public class DoctorControllers {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteDoctorById(@PathVariable @NotNull UUID id) {
+    public ResponseEntity<String> deleteDoctorById(@PathVariable @NotNull UUID id) {
         service.deleteDoctorById(id);
-        return "Doctor deleted successfully";
+        return ResponseEntity.status(HttpStatus.OK).body("Doctor Deleted Successfully");
     }
 
 }

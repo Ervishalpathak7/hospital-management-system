@@ -17,13 +17,13 @@ public final class CursorCodec {
                 .encodeToString((PREFIX + id).getBytes(StandardCharsets.UTF_8));
     }
 
-    public static Long decode(String cursor) {
+    public static UUID decode(String cursor) {
         try {
             String raw = new String(Base64.getUrlDecoder().decode(cursor), StandardCharsets.UTF_8);
             if (!raw.startsWith(PREFIX)) {
                 throw new InvalidCursorException();
             }
-            return Long.parseLong(raw.substring(PREFIX.length()));
+            return UUID.fromString(raw.substring(PREFIX.length()));
         } catch (IllegalArgumentException e) {   // covers bad Base64 and NumberFormatException
             throw new InvalidCursorException();
         }
