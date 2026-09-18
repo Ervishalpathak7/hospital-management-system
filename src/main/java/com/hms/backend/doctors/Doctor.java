@@ -40,8 +40,16 @@ public class Doctor {
     private DoctorSpecialisation specialization;
 
     public Doctor(String name, DoctorSpecialisation specialization) {
-        this.name = name;
+        this.name = name.trim();
         this.specialization = specialization;
+    }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void changeSpecialization(DoctorSpecialisation specialisation) {
+        this.specialization = specialisation;
     }
 
 }

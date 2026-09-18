@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hms.backend.Exceptions.ResourceNotFoundException;
-import com.hms.backend.doctors.Dto.CreateDoctorRequest;
-import com.hms.backend.doctors.Dto.CursorPageResponse;
-import com.hms.backend.doctors.Dto.DoctorResponse;
+import com.hms.backend.doctors.Dto.CreateDoctorRequestDto;
+import com.hms.backend.doctors.Dto.CursorPageResponseDto;
+import com.hms.backend.doctors.Dto.DoctorResponseDto;
+import com.hms.backend.doctors.Dto.UpdateDoctorRequstDto;
 
 @Service
 public class DoctorServices {
@@ -21,12 +22,13 @@ public class DoctorServices {
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     public Doctor getDoctorById(UUID id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
     }
 
     @Transactional(readOnly = true)
-    public CursorPageResponse<DoctorResponse> getAllDoctors(String cursor, int size) {
+    public CursorPageResponseDto<DoctorResponseDto> getAllDoctors(String cursor, int size) {
 
         Limit limit = Limit.of(size + 1);
 
@@ -40,19 +42,33 @@ public class DoctorServices {
 
         String nextCursor = hasNext ? CursorCodec.encode(pageRows.get(pageRows.size() - 1).getId()) : null;
 
-        List<DoctorResponse> content = pageRows.stream()
-                .map(DoctorResponse::from)
+        List<DoctorResponseDto> content = pageRows.stream()
+                .map(DoctorResponseDto::from)
                 .toList();
 
-        return new CursorPageResponse<>(content, nextCursor, hasNext);
+        return new CursorPageResponseDto<>(content, nextCursor, hasNext);
     }
 
     @Transactional
-    public DoctorResponse registerDoctor(CreateDoctorRequest req) {
-        Doctor doc = new Doctor(req.name(), req.specialization());
-        return DoctorResponse.from(repository.save(doc));
+    public DoctorResponseDto registerDoctor(CreateDoctorRequestDto req) {
+        Doctor doc = new Doctor(req.name().trim(), req.specialization());
+        return DoctorResponseDto.from(repository.save(doc));
     }
 
+    @Transactional
+    public DoctorResponseDto updateDoctorById(UUID id, UpdateDoctorRequstDto req) {
+        Doctor doc = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
+        if (req.name() != null) {
+            doc.changeName(req.name());
+        }
+        if (req.specialization() != null) {
+            doc.changeSpecialization(req.specialization());
+        }
+        return DoctorResponseDto.from(doc);
+
+    }
+
+    @Transactional
     public void deleteDoctorById(UUID id) {
         repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("user not found"));

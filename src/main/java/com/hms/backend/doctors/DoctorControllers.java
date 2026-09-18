@@ -2,9 +2,10 @@ package com.hms.backend.doctors;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hms.backend.doctors.Dto.CreateDoctorRequest;
-import com.hms.backend.doctors.Dto.CursorPageResponse;
-import com.hms.backend.doctors.Dto.DoctorResponse;
+import com.hms.backend.doctors.Dto.CreateDoctorRequestDto;
+import com.hms.backend.doctors.Dto.CursorPageResponseDto;
+import com.hms.backend.doctors.Dto.DoctorResponseDto;
+import com.hms.backend.doctors.Dto.UpdateDoctorRequstDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/v1/doctor")
@@ -35,7 +37,7 @@ public class DoctorControllers {
     }
 
     @GetMapping()
-    public CursorPageResponse<DoctorResponse> getAllDoctors(
+    public CursorPageResponseDto<DoctorResponseDto> getAllDoctors(
             @RequestParam(required = false) String cursor,
             @RequestParam(defaultValue = "10") @Min(1) @Max(20) int size) {
         return service.getAllDoctors(cursor, size);
@@ -43,13 +45,18 @@ public class DoctorControllers {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public DoctorResponse registerNewDoctor(@Valid @RequestBody CreateDoctorRequest data) {
+    public DoctorResponseDto registerNewDoctor(@Valid @RequestBody CreateDoctorRequestDto data) {
         return service.registerDoctor(data);
     }
 
     @GetMapping("/{id}")
     public Doctor getDoctorById(@PathVariable @NotNull UUID id) {
         return service.getDoctorById(id);
+    }
+
+    @PutMapping("/{id}")
+    public DoctorResponseDto updateDoctorById(@PathVariable UUID id, @Valid @RequestBody UpdateDoctorRequstDto entity) {
+        return service.updateDoctorById(id, entity);
     }
 
     @DeleteMapping("/{id}")

@@ -5,11 +5,11 @@ import java.util.UUID;
 import com.hms.backend.doctors.Doctor;
 import com.hms.backend.doctors.DoctorSpecialisation;
 
-public record DoctorResponse(
+public record DoctorResponseDto(
         UUID id,
         String name,
         DoctorSpecialisation specialization) {
-    public static DoctorResponse from(Doctor d) {
-        return new DoctorResponse(d.getId(), d.getName(), d.getSpecialization());
+    public static DoctorResponseDto from(Doctor d) {
+        return new DoctorResponseDto(d.getId(), d.getName(), d.getSpecialization());
     }
 }
