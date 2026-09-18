@@ -30,7 +30,7 @@ public class DoctorServices {
 
         Limit limit = Limit.of(size + 1);
 
-        List<Doctor> rows = (cursor == null)
+        List<Doctor> rows = (cursor == null || cursor.isBlank())
                 ? repository.findAllByOrderByIdAsc(limit)
                 : repository.findByIdGreaterThanOrderByIdAsc(CursorCodec.decode(cursor), limit);
 
