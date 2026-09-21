@@ -1,4 +1,4 @@
-package com.hms.backend.doctors;
+package com.hms.backend.doctors.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hms.backend.Exceptions.ResourceNotFoundException;
-import com.hms.backend.doctors.Dto.CreateDoctorRequestDto;
-import com.hms.backend.doctors.Dto.CursorPageResponseDto;
-import com.hms.backend.doctors.Dto.DoctorResponseDto;
-import com.hms.backend.doctors.Dto.UpdateDoctorRequstDto;
+import com.hms.backend.doctors.dto.CreateDoctorRequestDto;
+import com.hms.backend.doctors.dto.CursorPageResponseDto;
+import com.hms.backend.doctors.dto.DoctorResponseDto;
+import com.hms.backend.doctors.dto.UpdateDoctorRequstDto;
+import com.hms.backend.doctors.utils.CursorCodec;
 
 @Service
 public class DoctorServices {

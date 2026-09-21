@@ -1,4 +1,4 @@
-package com.hms.backend.doctors;
+package com.hms.backend.doctors.types;
 
 public enum DoctorSpecialisation {
     General_Medicine,

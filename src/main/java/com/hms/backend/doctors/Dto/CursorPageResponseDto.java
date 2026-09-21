@@ -1,4 +1,4 @@
-package com.hms.backend.doctors.Dto;
+package com.hms.backend.doctors.dto;
 
 import java.util.List;
 

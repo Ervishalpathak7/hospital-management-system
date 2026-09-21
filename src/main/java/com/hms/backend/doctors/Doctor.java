@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
+import com.hms.backend.doctors.types.DoctorSpecialisation;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

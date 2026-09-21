@@ -1,9 +1,9 @@
-package com.hms.backend.doctors.Dto;
+package com.hms.backend.doctors.dto;
 
 import java.util.UUID;
 
 import com.hms.backend.doctors.Doctor;
-import com.hms.backend.doctors.DoctorSpecialisation;
+import com.hms.backend.doctors.types.DoctorSpecialisation;
 
 public record DoctorResponseDto(
         UUID id,

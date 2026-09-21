@@ -1,6 +1,6 @@
-package com.hms.backend.doctors.Dto;
+package com.hms.backend.doctors.dto;
 
-import com.hms.backend.doctors.DoctorSpecialisation;
+import com.hms.backend.doctors.types.DoctorSpecialisation;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

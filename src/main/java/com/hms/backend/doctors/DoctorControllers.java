@@ -2,10 +2,10 @@ package com.hms.backend.doctors;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hms.backend.doctors.Dto.CreateDoctorRequestDto;
-import com.hms.backend.doctors.Dto.CursorPageResponseDto;
-import com.hms.backend.doctors.Dto.DoctorResponseDto;
-import com.hms.backend.doctors.Dto.UpdateDoctorRequstDto;
+import com.hms.backend.doctors.dto.CreateDoctorRequestDto;
+import com.hms.backend.doctors.dto.CursorPageResponseDto;
+import com.hms.backend.doctors.dto.DoctorResponseDto;
+import com.hms.backend.doctors.dto.UpdateDoctorRequstDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
