@@ -24,8 +24,9 @@ public class DoctorServices {
     }
 
     @Transactional(readOnly = true)
-    public Doctor getDoctorById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+    public DoctorResponseDto getDoctorById(UUID id) {
+        return DoctorResponseDto
+                .from(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
     }
 
     @Transactional(readOnly = true)
