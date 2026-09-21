@@ -15,15 +15,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "doctors")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Doctor {
 
@@ -37,9 +36,11 @@ public class Doctor {
 
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
-
     @Column(name = "specialization", columnDefinition = "doc_specialization", nullable = false)
     private DoctorSpecialisation specialization;
+
+    @Version 
+    private Long version;
 
     public Doctor(String name, DoctorSpecialisation specialization) {
         this.name = name.trim();

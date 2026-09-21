@@ -3,7 +3,6 @@ package com.hms.backend.doctors.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import com.hms.backend.doctors.*;
 import com.hms.backend.doctors.types.DoctorSpecialisation;
 
 public record CreateDoctorRequestDto(

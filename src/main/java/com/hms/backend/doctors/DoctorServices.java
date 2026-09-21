@@ -4,15 +4,17 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Limit;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hms.backend.Exceptions.ResourceNotFoundException;
+import com.hms.backend.Utils.CursorCodec;
 import com.hms.backend.doctors.dto.CreateDoctorRequestDto;
 import com.hms.backend.doctors.dto.CursorPageResponseDto;
+import com.hms.backend.doctors.dto.DoctorByIdResponse;
 import com.hms.backend.doctors.dto.DoctorResponseDto;
 import com.hms.backend.doctors.dto.UpdateDoctorRequstDto;
-import com.hms.backend.doctors.utils.CursorCodec;
 
 @Service
 public class DoctorServices {
@@ -24,8 +26,8 @@ public class DoctorServices {
     }
 
     @Transactional(readOnly = true)
-    public DoctorResponseDto getDoctorById(UUID id) {
-        return DoctorResponseDto
+    public DoctorByIdResponse getDoctorById(UUID id) {
+        return DoctorByIdResponse
                 .from(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
     }
 
@@ -60,6 +62,9 @@ public class DoctorServices {
     @Transactional
     public DoctorResponseDto updateDoctorById(UUID id, UpdateDoctorRequstDto req) {
         Doctor doc = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
+        if (!doc.getVersion().equals(req.version())) {
+            throw new ObjectOptimisticLockingFailureException(Doctor.class, id);
+        }
         if (req.name() != null) {
             doc.changeName(req.name());
         }

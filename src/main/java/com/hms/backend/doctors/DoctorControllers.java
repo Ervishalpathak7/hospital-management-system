@@ -2,6 +2,7 @@ package com.hms.backend.doctors;
 
 import com.hms.backend.doctors.dto.DoctorResponseDto;
 import com.hms.backend.doctors.dto.CursorPageResponseDto;
+import com.hms.backend.doctors.dto.DoctorByIdResponse;
 import com.hms.backend.doctors.dto.UpdateDoctorRequstDto;
 import com.hms.backend.doctors.dto.CreateDoctorRequestDto;
 
@@ -51,7 +52,7 @@ public class DoctorControllers {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public DoctorResponseDto getDoctorById(@PathVariable @NotNull UUID id) {
+    public DoctorByIdResponse getDoctorById(@PathVariable @NotNull UUID id) {
         return service.getDoctorById(id);
     }
 
