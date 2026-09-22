@@ -19,6 +19,13 @@ public class PateintController {
         this.service = service;
     }
 
+    @GetMapping
+    public CursorPageResponseDto<PatientResponse> getAllPatient(
+            @RequestParam(defaultValue = "10") @Min(value = 5, message = "Size must be atleast 5") @Max(value = 20, message = "Size must be atmost 20") int size,
+            @RequestParam(required = false) String cursor) {
+        return service.getAllPatient(size, cursor);
+    }
+
     @PostMapping
     public PatientResponse createPatient(@Valid @RequestBody CreatePatientRequest data) {
         return service.createPatient(data);
