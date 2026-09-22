@@ -1,9 +1,9 @@
 package com.hms.backend.doctors;
 
 import com.hms.backend.doctors.dto.DoctorResponseDto;
-import com.hms.backend.doctors.dto.CursorPageResponseDto;
 import com.hms.backend.doctors.dto.DoctorByIdResponse;
 import com.hms.backend.doctors.dto.UpdateDoctorRequstDto;
+import com.hms.backend.Types.CursorPageResponseDto;
 import com.hms.backend.doctors.dto.CreateDoctorRequestDto;
 
 import jakarta.validation.Valid;
