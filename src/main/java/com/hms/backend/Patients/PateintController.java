@@ -34,6 +34,7 @@ public class PateintController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public CursorPageResponseDto<PatientResponse> getAllPatient(
             @RequestParam(defaultValue = "10") @Min(value = 5, message = "Size must be atleast 5") @Max(value = 20, message = "Size must be atmost 20") int size,
             @RequestParam(required = false) String cursor) {
@@ -41,14 +42,18 @@ public class PateintController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public PatientResponse createPatient(@Valid @RequestBody CreatePatientRequest data) {
         return service.createPatient(data);
     }
 
     @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
     public PatientResponse getPatientById(@RequestParam UUID id) {
         return PatientResponse.from(service.getPatientById(id));
     }
+    
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePatientById(@NotNull @PathVariable UUID id) {
         service.deletePatientById(id);
