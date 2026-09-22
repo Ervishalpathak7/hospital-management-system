@@ -6,15 +6,15 @@ import java.util.UUID;
 import com.hms.backend.Patients.Patient;
 import com.hms.backend.Types.Gender;
 
-public record ResponsePatient(
+public record PatientResponse(
         UUID id,
         String name,
         LocalDate dob,
         Gender gender,
         String phone,
         String email) {
-    public static ResponsePatient from(Patient p) {
-        return new ResponsePatient(p.getId(), p.getName(), p.getDob(), p.getGender(), p.getPhone(), p.getEmail());
+    public static PatientResponse from(Patient p) {
+        return new PatientResponse(p.getId(), p.getName(), p.getDob(), p.getGender(), p.getPhone(), p.getEmail());
     }
 
 }
