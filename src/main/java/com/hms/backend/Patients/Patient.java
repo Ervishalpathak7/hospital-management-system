@@ -52,6 +52,14 @@ public class Patient {
     @Version
     private Long version;
 
+    public Patient(String name, LocalDate dob, Gender gender, String phone, String email) {
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+    }
+
     public void changeName(String name) {
         this.name = name;
     }
