@@ -22,9 +22,9 @@ public class PatientService {
     }
 
     @Transactional
-    public Patient createPatient(CreatePatientRequest req) {
+    public PatientResponse createPatient(CreatePatientRequest req) {
         Patient p = new Patient(req.name(), req.dob(), req.gender(), req.phone(), req.email());
-        return repository.save(p);
+        return PatientResponse.from(repository.save(p));
     }
 
     @Transactional(readOnly = true)

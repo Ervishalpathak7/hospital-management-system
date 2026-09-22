@@ -20,7 +20,7 @@ public class PateintController {
     }
 
     @PostMapping
-    public Patient createPatient(@Valid @RequestBody CreatePatientRequest data) {
+    public PatientResponse createPatient(@Valid @RequestBody CreatePatientRequest data) {
         return service.createPatient(data);
     }
 
