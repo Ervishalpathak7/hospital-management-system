@@ -40,7 +40,7 @@ public class DoctorControllers {
     @ResponseStatus(HttpStatus.OK)
     public CursorPageResponseDto<DoctorResponseDto> getAllDoctors(
             @RequestParam(required = false) String cursor,
-            @RequestParam(defaultValue = "10") @Min(1) @Max(20) int size) {
+            @RequestParam(defaultValue = "10") @Min(value = 10, message = "Size must be atleast 10") @Max(value = 20, message = "Size should not be more than 20") int size) {
         return service.getAllDoctors(cursor, size);
     }
 
