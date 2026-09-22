@@ -1,6 +1,9 @@
 package com.hms.backend.Exceptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -36,6 +40,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                 "This doctor was modified by someone else. Reload and try again.");
                 pd.setTitle("Concurrent Update");
                 return pd;
+        }
+
+        @Override
+        protected ResponseEntity<Object> handleMethodArgumentNotValid(
+                        MethodArgumentNotValidException ex,
+                        HttpHeaders headers,
+                        HttpStatusCode status,
+                        WebRequest request) {
+
+                Map<String, List<String>> errors = new HashMap<>();
+                ex.getFieldErrors().forEach(error -> errors.computeIfAbsent(error.getField(), k -> new ArrayList<>())
+                                .add(error.getDefaultMessage()));
+                ProblemDetail pd = ProblemDetail.forStatusAndDetail(status, "Validation failed");
+                pd.setTitle("Validation errors");
+                pd.setProperty("errors", errors);
+                return ResponseEntity.status(status).headers(headers).body(pd);
         }
 
         @Override
