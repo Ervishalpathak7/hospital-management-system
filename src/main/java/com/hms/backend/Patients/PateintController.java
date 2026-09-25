@@ -47,13 +47,13 @@ public class PateintController {
         return service.createPatient(data);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PatientResponse getPatientById(@RequestParam UUID id) {
+    public PatientResponse getPatientById(@PathVariable UUID id) {
         return PatientResponse.from(service.getPatientById(id));
     }
     
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePatientById(@NotNull @PathVariable UUID id) {
         service.deletePatientById(id);

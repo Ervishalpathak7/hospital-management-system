@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hms.backend.Types.Gender;
 
 import jakarta.persistence.Column;
@@ -41,6 +42,7 @@ public class Patient {
     private Gender gender;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dob;
 
     @Column(nullable = false, unique = true, length = 15)

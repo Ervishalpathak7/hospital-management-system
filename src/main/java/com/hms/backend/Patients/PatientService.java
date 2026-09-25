@@ -23,7 +23,7 @@ public class PatientService {
 
     @Transactional
     public PatientResponse createPatient(CreatePatientRequest req) {
-        Patient p = new Patient(req.name(), req.dob(), req.gender(), req.phone(), req.email());
+        Patient p = new Patient(req.name().trim(), req.dob(), req.gender(), req.phone(), req.email());
         return PatientResponse.from(repository.save(p));
     }
 
