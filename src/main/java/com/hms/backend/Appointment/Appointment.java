@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hms.backend.Appointment.dto.AppointmentCreateDTO;
+import com.hms.backend.Types.AppointmentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,7 +37,7 @@ public class Appointment {
     UUID patientId;
 
     @Column(name = "appointment_date", nullable = false, updatable = false)
-    @JsonFormat(pattern = "dd-MM-yy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     LocalDate date;
 
     @Column(name = "start_time", nullable = false, updatable = false)
@@ -53,4 +55,13 @@ public class Appointment {
     @Version
     @Column(name = "version", nullable = false)
     Long version;
+
+    public Appointment(AppointmentCreateDTO data) {
+        this.patientId = data.patientId();
+        this.doctorId = data.doctorId();
+        this.date = data.date();
+        this.startTime = data.startTime();
+        this.endTime = data.startTime().plusMinutes(30);
+        this.status = "SCHEDULED";
+    }
 }
