@@ -42,6 +42,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 return pd;
         }
 
+        @ExceptionHandler(InvalidTimeSlotException.class)
+        public ProblemDetail handleInvalidTimeSlotException(InvalidTimeSlotException ex) {
+                ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+                return pd;
+        }
+
+        @ExceptionHandler(SlotAlreadyBookedException.class)
+        public ProblemDetail handleSlotAlreadyBookedExceptionException(SlotAlreadyBookedException ex) {
+                ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+                return pd;
+        }
+
         @Override
         protected ResponseEntity<Object> handleMethodArgumentNotValid(
                         MethodArgumentNotValidException ex,
