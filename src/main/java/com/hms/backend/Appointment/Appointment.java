@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hms.backend.Types.AppointmentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
